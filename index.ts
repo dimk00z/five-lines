@@ -22,6 +22,7 @@ interface Input{
   isLeft(): boolean;
   isUp(): boolean;
   isDown(): boolean;
+  handle(): void;
 }
 class Right implements Input{
   isRight(): boolean {
@@ -36,6 +37,9 @@ class Right implements Input{
   isDown(): boolean {
     return false;
   }
+  handle() {
+    moveHorizontal(1);
+  }
 }
 class Left implements Input{
   isRight(): boolean {
@@ -49,6 +53,9 @@ class Left implements Input{
   }
   isDown(): boolean {
     return false;
+  }
+  handle() {
+    moveHorizontal(-1);
   }
 }
 
@@ -65,6 +72,9 @@ class Down implements Input{
   isDown(): boolean {
     return true;
   }
+  handle() {
+    moveVertical(1);
+  }
 }
 class Up implements Input{
   isRight(): boolean {
@@ -78,6 +88,9 @@ class Up implements Input{
   }
   isDown(): boolean {
     return false;
+  }
+  handle() {
+    moveVertical(-1);
   }
 }
 
@@ -181,14 +194,7 @@ function handleInputs() {
 }
 
 function handleInput(input: Input) {
-  if (input.isLeft())
-    moveHorizontal(-1);
-  else if (input.isRight())
-    moveHorizontal(1);
-  else if (input.isUp())
-    moveVertical(-1);
-  else if (input.isDown())
-    moveVertical(1);
+  input.handle()
 }
 
 function draw() {
@@ -256,8 +262,8 @@ const RIGHT_KEY = "ArrowRight";
 const DOWN_KEY = "ArrowDown";
 window.addEventListener("keydown", e => {
   if (e.key === LEFT_KEY || e.key === "a") inputs.push(new Left());
-  else if (e.key === UP_KEY || e.key === "w") inputs.push(new Right());
-  else if (e.key === RIGHT_KEY || e.key === "d") inputs.push(new Up());
+  else if (e.key === UP_KEY || e.key === "w") inputs.push(new Up());
+  else if (e.key === RIGHT_KEY || e.key === "d") inputs.push(new Right());
   else if (e.key === DOWN_KEY || e.key === "s") inputs.push(new Down());
 });
 
